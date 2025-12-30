@@ -1,0 +1,6 @@
+res://default_env.tres
+res://scenes/World.tscn
+res://scripts/World.gd
+res://scripts/Player.gd
+res://scenes/Chunk.tscn
+res://scenes/Player.tscn
