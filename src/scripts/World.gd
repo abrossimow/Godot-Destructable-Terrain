@@ -17,7 +17,9 @@ func _ready() -> void:
 	randomize()
 	generate_world(_get_noise(randi()))
 
-func _process(delta_time: float) -> void:
+func _process(_delta: float) -> void:
+	#region Terrain Manipulations - DEV ONLY!
+	
 	if(Input.is_action_pressed("debug_mouse")):
 		#get_child(1).position = get_global_mouse_position()
 		var pos = (get_global_mouse_position() / SQUARE_SIZE).round()
@@ -27,8 +29,12 @@ func _process(delta_time: float) -> void:
 		set_vertex(z.y, z.x, -0.1, true)
 		for chunk in $Chunks.get_children():
 			chunk.initalize_mesh()
+			
 	if(Input.is_action_pressed("debug_mouse2")):
 		explosion(get_global_mouse_position(), 50.0, 1.0)
+		
+	#endregion
+	
 	update_chunks()
 	#print(Engine.get_frames_per_second())
 
@@ -122,7 +128,8 @@ func set_vertex(row: int, col: int, value: float, add: bool = false) -> void:
 		chunk.vertices[0][0] = value
 		altered_chunks[chunk] = true
 
-func update_chunks(): #unoptimized debug function
+#TODO unoptimized debug function
+func update_chunks(): 
 	for chunk in altered_chunks.keys():
 		chunk.initalize_mesh()
 	altered_chunks.clear()
@@ -135,5 +142,5 @@ func explosion(location: Vector2, radius: float, intensity: float) -> void:
 	var current := location.round() - Vector2(cell_radius, cell_radius)
 	for i in range(cell_radius * 2):
 		for j in range(cell_radius * 2):
-			set_vertex(current.y + i, current.x + j, max(0.0, 1.0 - min(1.0, Vector2(current.x + j, current.y + i).distance_to(location) / radius)) * -intensity, true) #make this prettier
+			set_vertex(current.y + i, current.x + j, max(0.0, 1.0 - min(1.0, Vector2(current.x + j, current.y + i).distance_to(location) / radius)) * -intensity, true) #TODO make this prettier
 	update_chunks()
