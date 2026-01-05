@@ -78,9 +78,9 @@ var empty_chunk := false
 func _ready() -> void:
 	pass
 
-func set_size(chunk_size: int, square_size: int) -> void:
-	self.chunk_size = chunk_size
-	self.square_size = square_size
+func set_size(_chunk_size: int, _square_size: int) -> void:
+	self.chunk_size = _chunk_size
+	self.square_size = _square_size
 	vertices.resize(chunk_size + 1)
 	for i in range(chunk_size + 1):
 		vertices[i] = []
@@ -160,7 +160,7 @@ func initalize_mesh() -> void:
 				if contour_flags[idx] & VALID_MASK and not contour_flags[idx] & VISITED_MASK:
 					var r := i
 					var c := j
-					var direction
+					var direction: int
 					var following_edge := false
 					masses.append([])
 					while true:
@@ -188,7 +188,7 @@ func initalize_mesh() -> void:
 							3:
 								c -= 1
 						
-						var vertices: int = masses.back().size()
+						var vertice: int = masses.back().size()
 						var original_direction: int = direction
 						following_edge = true
 						if r < 0:
@@ -227,7 +227,7 @@ func initalize_mesh() -> void:
 							has_followed_edge = true
 						
 						if placed_vertex:
-							masses.back().insert(vertices, contour_midpoints[idx][1 if not contour_flags[idx] & SPECIAL_MASK else original_direction])
+							masses.back().insert(vertice, contour_midpoints[idx][1 if not contour_flags[idx] & SPECIAL_MASK else original_direction])
 						
 						idx = r * chunk_size + c
 		
